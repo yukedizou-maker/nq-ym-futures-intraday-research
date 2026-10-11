@@ -1,44 +1,44 @@
-# YM Intraday Quantitative Strategy | 15-Year Backtest: +921.28% Total Return, 16.76% CAGR
+# YM 日内量化策略｜15 年回测累计收益 +921.28%，年化 16.76%
 
-**English** · [中文版](README.zh-CN.md)
+**中文版** · [English](README.en.md)
 
-This repository presents the supplied backtest archive for a five-rule YM intraday futures portfolio (S1, S2, A1, A2 and A3). It includes trade-level results, charts and a consistency-check script. **All returns are historical simulations, not live results or forecasts.** The original five-rule backtest engine was not included in the archive, so these results cannot be independently regenerated from this repository.
+本仓库整理用户提供的 YM 期货五规则日内策略组合（S1、S2、A1、A2、A3）回测结果，包含逐笔交易、统计表、图表和数据一致性校验代码。所有收益均为**历史模拟，不是实盘记录或未来收益预测**。结果压缩包没有生成这套五规则回测的完整源码，因此无法从本仓库的文件独立重跑策略。
 
-## Backtest summary
+## 回测概览
 
-| Item | Result / assumption |
+| 项目 | 结果或假设 |
 |---|---:|
-| Instrument | CME E-mini Dow Jones Industrial Average futures (YM), $5 per index point per contract |
-| Market data | Databento `GLBX.MDP3`, `ohlcv-1m`, continuous `YM.v.0`, as recorded in the supplied research materials |
-| Period | September 23, 2011 – September 22, 2026 (about 15 years; partial 2011 and 2026) |
-| Initial / ending simulated equity | $50,000 / $510,640 |
-| Net profit / total return / CAGR | **$460,640 / +921.28% / 16.76%** |
-| Completed portfolio trades | **406** (358 short, 48 long); this is not a count of broker order messages |
-| Win rate / profit factor | 59.85% / 2.29 |
-| Annualized daily Sharpe / reported Sortino | 1.36 / 1.00 |
-| Maximum close-to-close / intraday drawdown | −14.80% / −15.07% |
-| Assumed transaction costs | $2.50 commission per contract per side; 1 adverse index point of slippage per side; $15 total per contract round trip |
-| Position sizing | Margin **budget** = 50% of pre-trade equity; modeled margin used = 37.82%–49.99% of equity; 3–12 contracts per portfolio trade |
+| 交易标的 | CME 小型道琼斯工业平均指数期货 YM；每指数点每手 $5 |
+| 行情资料 | 用户研究资料记录为 Databento `GLBX.MDP3`、`ohlcv-1m`、连续符号 `YM.v.0` |
+| 回测时间 | 2011 年 9 月 23 日至 2026 年 9 月 22 日，约 15 年；首尾均为不完整年度 |
+| 初始／期末模拟资金 | $50,000／$510,640 |
+| 净利润／累计收益／复合年化收益 | **$460,640／+921.28%／16.76%** |
+| 已完成组合交易 | **406 笔**：做空 358 笔、做多 48 笔；这是交易笔数，不是券商委托消息数 |
+| 胜率／盈利因子 | 59.85%／2.29 |
+| 日收益年化夏普／报告中的索提诺 | 1.36／1.00 |
+| 最大收盘权益回撤／盘中回撤 | −14.80%／−15.07% |
+| 假设交易成本 | 每手每边手续费 $2.50；进出场各计 1 指数点不利滑点；每手往返共 $15 |
+| 仓位控制 | 每笔保证金**预算**为交易前权益的 50%；实际模型保证金占权益 37.82%–49.99%；组合每笔 3–12 手 |
 
-Sharpe uses daily equity changes, √252 annualization and no risk-free-rate adjustment. CAGR uses the calendar span above. The 50% figure is a *margin budget*, not a 50% maximum-loss rule. The model assigns margin per contract at 9% of YM notional value; this is a research sizing proxy, **not an actual historical broker or CME margin schedule**. The `CONTRACTS=1` configuration applies to standalone rule diagnostics; actual portfolio sizes come from the trade log.
+夏普按逐日权益变化和 √252 年化，未扣无风险利率。复合年化收益按上述起止日期的日历跨度计算。50% 指保证金预算，**不是**每笔最多亏损 50% 本金的风险规则。模型以每手名义价值的 9% 计算保证金；这是研究中的仓位参数，**不是**历史券商或 CME 的实际保证金标准。配置文件中的 `CONTRACTS=1` 用于单规则独立测试；组合实际手数以逐笔记录为准。
 
-## Rules and trading schedule
+## 策略规则与交易时间
 
-Entries occur at **09:30 or 09:45 America/New_York**; scheduled exits occur at **09:45, 10:00 or 10:30**. The trade log also contains early exits on opposing signals. The conditions below are transcribed from the supplied `config.json`. Exact feature construction and intrabar fill logic require the missing source.
+入场时间为**纽约时间 09:30 或 09:45**，计划离场时间为**09:45、10:00 或 10:30**；逐笔记录中也有遇到反向信号提前离场的情况。下列条件直接摘自提供的 `config.json`。各特征的精确定义和分钟线内成交方法仍需缺失的源码确认。
 
-| Rule | Side | Entry → scheduled exit (New York time) | Archived condition |
+| 规则 | 方向 | 入场 → 计划离场（纽约时间） | 存档条件 |
 |---|---|---|---|
-| S1 | Long | 09:45 → 10:30 | `ov_ret <= -0.29% AND europe >= +0.14%` |
-| S2 | Short | 09:30 → 10:00 | `pre <= -0.19% AND late30 >= +0.03%` |
-| A1 | Short | 09:30 → 10:00 | `asia >= +0.13% AND europe <= -0.29%` |
-| A2 | Short | 09:45 → 10:30 | `evening <= -0.27% AND prev_rth_closepos >= 0.75` |
-| A3 | Short | 09:45 → 10:30 | `ov_ret <= -0.28% AND prev_rth_ret >= +0.80%` |
+| S1 | 做多 | 09:45 → 10:30 | `ov_ret <= -0.29% AND europe >= +0.14%` |
+| S2 | 做空 | 09:30 → 10:00 | `pre <= -0.19% AND late30 >= +0.03%` |
+| A1 | 做空 | 09:30 → 10:00 | `asia >= +0.13% AND europe <= -0.29%` |
+| A2 | 做空 | 09:45 → 10:30 | `evening <= -0.27% AND prev_rth_closepos >= 0.75` |
+| A3 | 做空 | 09:45 → 10:30 | `ov_ret <= -0.28% AND prev_rth_ret >= +0.80%` |
 
-Several signals may contribute to one portfolio trade. The independent one-contract diagnostics in `strategy_summary.csv` and `strategy_independent_trades.csv` **must not** be added to the dynamically sized portfolio result.
+一笔组合交易可能由多个信号共同触发。`strategy_summary.csv` 与 `strategy_independent_trades.csv` 是各规则独立单手测试，**不能**直接相加为动态仓位组合的 $460,640 收益。
 
-## Annual results
+## 逐年表现
 
-| Year | Completed trades | Simulated net P&L |
+| 年份 | 已完成交易 | 模拟净利润 |
 |---:|---:|---:|
 | 2011* | 13 | $4,520 |
 | 2012 | 25 | $4,165 |
@@ -57,24 +57,25 @@ Several signals may contribute to one portfolio trade. The independent one-contr
 | 2025 | 31 | $86,385 |
 | 2026* | 18 | $78,005 |
 
-\* Partial years. Performance in 2020 and 2025–2026 makes a large contribution to the total. The archive does not establish an independent out-of-sample period or document how the rules were selected.
+\* 不完整年度。2020 年与 2025–2026 年对总收益贡献较大。现有资料无法确认哪些年份真正用于样本外检验，也无法确认规则筛选过程是否利用过全部年份。
 
-## Charts
+## 图表
 
-![Simulated portfolio equity](reports/ym_sa/charts/equity_curve.png)
+![YM 组合模拟权益曲线](reports/ym_sa/charts/zh/equity_curve.png)
 
-![Annual simulated net profit](reports/ym_sa/charts/yearly_pnl.png)
+![逐年模拟净利润](reports/ym_sa/charts/zh/yearly_pnl.png)
 
-![Simulated drawdown](reports/ym_sa/charts/drawdown_curve.png)
+![模拟回撤曲线](reports/ym_sa/charts/zh/drawdown_curve.png)
 
-More charts are in [`reports/ym_sa/charts`](reports/ym_sa/charts).
+其他月度和单规则中文图表见 [`reports/ym_sa/charts/zh`](reports/ym_sa/charts/zh)。
 
-## Files and verification
+## 文件与复核方式
 
-- [`portfolio_trades.csv`](reports/ym_sa/portfolio_trades.csv): all 406 completed portfolio trades, including timestamps, signals, position sizes, net P&L and modeled margin.
-- [`portfolio_summary.csv`](reports/ym_sa/portfolio_summary.csv), [`portfolio_yearly.csv`](reports/ym_sa/portfolio_yearly.csv), [`portfolio_monthly.csv`](reports/ym_sa/portfolio_monthly.csv): summary and annual/monthly results.
-- [`daily_equity_drawdown.csv`](reports/ym_sa/daily_equity_drawdown.csv), [`intraday_equity_drawdown.csv`](reports/ym_sa/intraday_equity_drawdown.csv): equity and drawdown paths.
-- [`config.json`](reports/ym_sa/config.json), [`YM_SA_backtest_report.xlsx`](reports/ym_sa/YM_SA_backtest_report.xlsx): archived configuration and workbook.
-- [`scripts/verify_ym_report.py`](scripts/verify_ym_report.py): checks that all 406 trade P&Ls and annual P&Ls reconcile to $460,640. Run `python scripts/verify_ym_report.py` from the repository root; only the Python standard library is needed.
+- [`portfolio_trades.csv`](reports/ym_sa/portfolio_trades.csv)：406 笔已完成组合交易的时间、信号、手数、扣除假设成本后的净收益和模型保证金。
+- [`portfolio_summary.csv`](reports/ym_sa/portfolio_summary.csv)、[`portfolio_yearly.csv`](reports/ym_sa/portfolio_yearly.csv)、[`portfolio_monthly.csv`](reports/ym_sa/portfolio_monthly.csv)：组合汇总、逐年和逐月表现。
+- [`daily_equity_drawdown.csv`](reports/ym_sa/daily_equity_drawdown.csv)、[`intraday_equity_drawdown.csv`](reports/ym_sa/intraday_equity_drawdown.csv)：权益和回撤记录。
+- [`config.json`](reports/ym_sa/config.json)、[`YM_SA_backtest_report.xlsx`](reports/ym_sa/YM_SA_backtest_report.xlsx)：原始配置和工作簿。
+- [`scripts/verify_ym_report.py`](scripts/verify_ym_report.py)：核对 406 笔逐笔收益与逐年收益是否均等于 $460,640。在仓库根目录运行 `python scripts/verify_ym_report.py`；只需 Python 标准库。
+- [`scripts/plot_ym_chinese.py`](scripts/plot_ym_chinese.py)：从公开统计表重新绘制七张中文图；安装 `requirements.txt` 后运行 `python scripts/plot_ym_chinese.py`。
 
-The check reconciles **published output tables only**. Raw 1-minute market data is excluded because redistribution rights are not established. The five-rule backtest engine is absent, so fill details, feature definitions, selection bias and future performance remain unverified. This repository documents the supplied simulation; it is not an independently reproducible trading system or investment advice.
+上述校验只核对**已经发布的结果表**。原始一分钟行情没有随仓库发布，因为行情再分发权限尚未确认；五规则策略引擎也未包含。因此成交细节、信号构造、筛选偏差和未来表现尚未独立验证。本仓库展示的是所提供的模拟记录，不构成可独立复现的交易系统或投资建议。
