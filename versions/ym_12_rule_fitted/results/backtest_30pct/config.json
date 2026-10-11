@@ -1,0 +1,90 @@
+{
+  "INITIAL_CAPITAL": 50000.0,
+  "CONTRACT_NAME": "YM",
+  "POINT_VALUE": 5.0,
+  "COMMISSION_PER_SIDE": 2.5,
+  "SLIPPAGE_POINTS": 1.0,
+  "MARGIN_RATE": 0.09,
+  "MARGIN_BUDGET_PCT": 0.3,
+  "USE_SCORE_TO_SCALE_MARGIN": false,
+  "FULL_MARGIN_SCORE": 20,
+  "MAX_CONTRACTS": null,
+  "MIN_NET_SCORE": 5,
+  "RESONANCE_MIN_SCORE": 18,
+  "WEIGHTS": {
+    "J": 15,
+    "E": 13,
+    "N5": 12,
+    "A": 11,
+    "M": 10,
+    "C": 10,
+    "B": 8,
+    "F": 7,
+    "D": 5,
+    "G": 4,
+    "I": 3,
+    "K": 2
+  },
+  "RULE_META": {
+    "A": {
+      "side": "LONG",
+      "entry": "09:30",
+      "exit": "10:00"
+    },
+    "B": {
+      "side": "SHORT",
+      "entry": "09:30",
+      "exit": "10:00"
+    },
+    "C": {
+      "side": "SHORT",
+      "entry": "09:30",
+      "exit": "10:00"
+    },
+    "D": {
+      "side": "LONG",
+      "entry": "09:30",
+      "exit": "10:00"
+    },
+    "E": {
+      "side": "LONG",
+      "entry": "09:45",
+      "exit": "10:30"
+    },
+    "F": {
+      "side": "LONG",
+      "entry": "09:45",
+      "exit": "10:30"
+    },
+    "G": {
+      "side": "SHORT",
+      "entry": "09:45",
+      "exit": "10:30"
+    },
+    "I": {
+      "side": "SHORT",
+      "entry": "09:30",
+      "exit": "10:00"
+    },
+    "J": {
+      "side": "SHORT",
+      "entry": "09:30",
+      "exit": "10:00"
+    },
+    "K": {
+      "side": "LONG",
+      "entry": "09:45",
+      "exit": "10:30"
+    },
+    "M": {
+      "side": "LONG",
+      "entry": "09:30",
+      "exit": "10:00"
+    },
+    "N5": {
+      "side": "LONG",
+      "entry": "09:45",
+      "exit": "10:30"
+    }
+  }
+}

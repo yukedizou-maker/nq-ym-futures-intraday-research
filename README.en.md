@@ -2,6 +2,8 @@
 
 **English** · [中文版](README.md)
 
+This repository also archives the [early fitted 12-rule strategy (English)](versions/ym_12_rule_fitted/README.en.md) and its [Chinese edition](versions/ym_12_rule_fitted/README.md). Its matching source code is available; the 30% margin-budget simulation returned +1,384.98% in total, or 19.71% CAGR, but uses a retrospective valid-day filter that needs correction. Its rules are distinct from the later five-rule portfolio. **All figures below apply only to the later five-rule S/A portfolio.**
+
 This repository presents the supplied backtest archive for a five-rule YM intraday futures portfolio (S1, S2, A1, A2 and A3). It includes trade-level results, charts and a consistency-check script. **All returns are historical simulations, not live results or forecasts.** The original five-rule backtest engine was not included in the archive, so these results cannot be independently regenerated from this repository.
 
 ## Backtest summary
