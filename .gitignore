@@ -1,0 +1,10 @@
+# Market data and local state
+*.parquet
+*.dbn
+*.dbn.zst
+*.zip
+.env
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+work/

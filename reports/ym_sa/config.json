@@ -1,0 +1,40 @@
+{
+  "INITIAL_CAPITAL": 50000.0,
+  "POINT_VALUE": 5.0,
+  "COMMISSION_PER_SIDE": 2.5,
+  "SLIPPAGE_POINTS": 1.0,
+  "CONTRACTS": 1,
+  "INPUT_TZ": "UTC",
+  "strategies": {
+    "S1": {
+      "side": "LONG",
+      "entry": "09:45",
+      "exit": "10:30",
+      "description": "ov_ret <= -0.29% AND europe >= +0.14%"
+    },
+    "S2": {
+      "side": "SHORT",
+      "entry": "09:30",
+      "exit": "10:00",
+      "description": "pre <= -0.19% AND late30 >= +0.03%"
+    },
+    "A1": {
+      "side": "SHORT",
+      "entry": "09:30",
+      "exit": "10:00",
+      "description": "asia >= +0.13% AND europe <= -0.29%"
+    },
+    "A2": {
+      "side": "SHORT",
+      "entry": "09:45",
+      "exit": "10:30",
+      "description": "evening <= -0.27% AND prev_rth_closepos >= 0.75"
+    },
+    "A3": {
+      "side": "SHORT",
+      "entry": "09:45",
+      "exit": "10:30",
+      "description": "ov_ret <= -0.28% AND prev_rth_ret >= +0.80%"
+    }
+  }
+}
