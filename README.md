@@ -1,6 +1,6 @@
 # YM Intraday Quantitative Strategy | 15-Year Backtest: +921.28% Total Return, 16.76% CAGR
 
-**English** · [中文版](README.md)
+**English** · [中文版](%E4%B8%AD%E6%96%87%20README.md)
 
 This repository also archives the [early fitted 12-rule strategy (English)](versions/ym_12_rule_fitted/README.en.md) and its [Chinese edition](versions/ym_12_rule_fitted/README.md). Its matching source code is available; the 30% margin-budget simulation returned +1,384.98% in total, or 19.71% CAGR, but uses a retrospective valid-day filter that needs correction. Its rules are distinct from the later five-rule portfolio. **All figures below apply only to the later five-rule S/A portfolio.**
 
